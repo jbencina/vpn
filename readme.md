@@ -22,6 +22,15 @@ We'll be using Docker to run PiHole/Cloudflared:
 2. Install Docker CE - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 3. Install Docker Compose - https://docs.docker.com/compose/install/
 
+## Debian instructions
+If working with Debian, you'll find some packages are not already installed like on Ubuntu. You'll have to install
+the Linux headers and dig for everything to run smoothly
+
+```
+sudo apt-get install linux-headers-$(uname -r)
+sudo apt install dnsutils
+```
+
 ## Wireguard Install
 Wireguard is our VPN service as a lightweight alternative to OpenVPN. It is still considered a new product with some debate on whether it is more or less secure than OpenVPN. I like Wireguard for its simple setup and stateless connection. The latter is great for mobile devices since it means your phone will always use the VPN tunnel without having to manually rejoin if the connection breaks.
 
@@ -88,9 +97,12 @@ We run both these services as a simple Docker compose. No configuration changes 
 - One contains a DNS over HTTPS proxy which I've put into a Docker https://developers.cloudflare.com/1.1.1.1/dns-over-https/cloudflared-proxy/
 - One contains PiHole which uses the supplied Docker image
 
-Each is assigned a static IP and PiHole is configured to use cloudflared as its DNS resolver.
-1. Copy `docker-compose.yaml` to `~/docker-compose.yaml`
-2. Run `sudo docker-compose up -d`
+Each is assigned a static IP and PiHole is configured to use cloudflared as its DNS resolver. To kick off the service:
+
+```
+ln -s vpn/docker-compose.yaml docker-compose.yaml
+sudo docker-compose up -d
+```
 
 Note: If you are running Ubuntu, make sure to follow the pihole docker instructions on
 disabling systemd-resolved which conflicts with port 53
