@@ -13,7 +13,7 @@ echo "Generated keys..."
 
 echo -n "[Interface]
 PrivateKey = $(cat "${SERVER_PATH}/privatekey")
-Address = 10.0.0.1/24,fd86:ea04:1111::1/64
+Address = 10.0.53.1/24,fd86:ea04:1111::1/64
 ListenPort = ${SERVER_PORT}
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o ${SERVER_DEVICE} -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o ${SERVER_DEVICE} -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o ${SERVER_DEVICE} -j MASQUERADE; ip6tables -t nat -D POSTROUTING -o ${SERVER_DEVICE} -j MASQUERADE" > "${SERVER_PATH}/wg0.conf"
