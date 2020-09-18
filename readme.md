@@ -39,6 +39,9 @@ SSH into your server and enable IP forwarding
 ```
 nano /etc/sysctl.conf
 net.ipv4.ip_forward = 1
+
+# Reload
+sudo sysctl --system
 ```
 
 Install Wireguard using apt get. We'll also generate the server's keypair.
