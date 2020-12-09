@@ -1,6 +1,6 @@
 FROM debian:latest
 RUN apt-get update && apt-get install -y curl dnsutils
-RUN curl https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.deb --output cloudflared-stable-linux-amd64.deb
+RUN curl https://bin.equinox.io/a/3wiMFEesiD8/cloudflared-2020.12.0-linux-amd64.deb --output cloudflared-stable-linux-amd64.deb
 RUN apt install /cloudflared-stable-linux-amd64.deb
 
 ENV TZ="UTC" \
