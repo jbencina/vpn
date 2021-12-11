@@ -1,14 +1,9 @@
 version: "3"
-
-# References for compose
-# https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
-# https://github.com/crazy-max/docker-cloudflared/blob/master/examples/pihole/docker-compose.yml
 services:
   cloudflared:
     container_name: cloudflared
-    image: jbencina/cloudflared:latest
-    environment:
-      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
+    image: cloudflare/cloudflared:latest
+    command: proxy-dns --port 5053
     restart: unless-stopped
     networks:
       pihole:
