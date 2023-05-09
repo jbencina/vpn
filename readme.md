@@ -21,7 +21,24 @@ Regardless of platform, you'll want to make sure that:
 We'll be using Docker Compose to run PiHole/Cloudflared. Follow the standard install
 guides appropriate for your server:
 1. Install Docker CE - https://docs.docker.com/install/linux/docker-ce/ubuntu/
-2. Install Docker Compose - https://docs.docker.com/compose/install/
+2. Install Docker Compose - Docker Compose is now included in the main instructions
+
+Configure Docker to automatically start
+```bash
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+```
+
+## Ubuntu instructions
+We'll need to free up port 53 on Ubuntu by running the following commands
+```bash
+sudo nano /etc/systemd/resolved.conf
+
+# Uncomment the following line, changing the value to np
+# Save and reboot
+
+DNSStubListener=no
+```
 
 ## Debian instructions
 If working with Debian, you'll find some packages are not already installed like on
@@ -30,19 +47,12 @@ Ubuntu. You'll have to install the Linux headers and dig for everything to run s
 sudo apt-get install linux-headers-$(uname -r)
 sudo apt install dnsutils
 ```
-
 ## Wireguard Install
 The easiest install path is to simply use PiVPN which enables you to choose either
 Wireguard (or OpenVPN) as your backend. You can run the latest installer using either
 the interactive method (https://docs.pivpn.io/install/)
 ```bash
 curl -L https://install.pivpn.io | bash
-```
-or the unattended method for installation via a config file
-```bash
-curl -L https://install.pivpn.io > install.sh
-chmod +x install.sh
-./install.sh --unattended options.conf
 ```
 
 Since we are using PiHole and Cloudflared, be sure to route your DNS to 0.0.0.0 during
@@ -59,12 +69,10 @@ Each is assigned a static IP and PiHole is configured to use Cloudflared as its
 DNS resolver. To kick off the service:
 
 ```bash
-ln -s vpn/docker-compose.yaml docker-compose.yaml
-sudo docker-compose up -d
+wget https://raw.githubusercontent.com/jbencina/vpn/master/docker-compose.yaml
+sudo docker compose pull
+sudo docker compose up -d
 ```
-
-Note: If you are running Ubuntu, make sure to follow the pihole docker instructions on
-disabling systemd-resolved which conflicts with port 53
 
 ## Conclusion
 You can now connect to Wireguard from your client and enjoy ad free browsing.
