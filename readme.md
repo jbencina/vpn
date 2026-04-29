@@ -51,6 +51,16 @@ the latest upstream release:
 ./update-server
 ```
 
+## WireGuard VPN
+To use PiHole ad blocking and DoH when away from your network, install
+[PiVPN](https://pivpn.io) on the same host:
+```bash
+curl -L https://install.pivpn.io | bash
+```
+
+During setup, set the DNS to the VPN host's tunnel address (e.g. `10.15.20.1`) so all
+VPN client traffic routes through PiHole.
+
 ## Verify DoH
 Visit https://1.1.1.1/help to confirm DNS over HTTPS is working.
 
