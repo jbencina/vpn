@@ -44,6 +44,18 @@ PiHole is configured to use dnscrypt-proxy (`127.0.0.1#5053`) as its upstream re
 You may need to update the upstream in PiHole's admin UI or `/etc/pihole/pihole.toml` if
 the setting doesn't persist from the environment variable.
 
+## Bridge networking
+The default `docker-compose.yaml` uses host networking, which is simplest for a dedicated
+DNS box. For cloud VMs or shared hosts where you want container isolation, use the bridge
+variant:
+```bash
+docker compose -f docker-compose.bridge.yaml up -d
+```
+
+This places containers on a private `172.20.0.0/24` subnet with static IPs and explicit
+port mappings. When using bridge mode, update `listen_addresses` in
+`dnscrypt-proxy/dnscrypt-proxy.toml` to `'0.0.0.0:5053'`.
+
 ## Updating
 Run the update script to pull the latest PiHole image and rebuild dnscrypt-proxy from
 the latest upstream release:

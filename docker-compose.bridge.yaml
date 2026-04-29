@@ -1,0 +1,42 @@
+services:
+  dnscrypt-proxy:
+    container_name: dnscrypt-proxy
+    build: ./dnscrypt-proxy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "dnscrypt-proxy", "-resolve", "cloudflare.com", "-config", "/etc/dnscrypt-proxy/dnscrypt-proxy.toml"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      dns:
+        ipv4_address: 172.20.0.3
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    depends_on:
+      dnscrypt-proxy:
+        condition: service_healthy
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'America/Los_Angeles'
+      DNS1: '172.20.0.3#5053'
+      DNS2: 'no'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      dns:
+        ipv4_address: 172.20.0.2
+networks:
+  dns:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
