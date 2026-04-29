@@ -1,0 +1,4 @@
+etc-pihole/
+etc-dnsmasq.d/
+*.tar.gz
+*.minisig
