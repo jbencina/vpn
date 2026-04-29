@@ -22,12 +22,23 @@ DNSStubListener=no
 ```
 
 ## Setup
+On first install, the Docker build needs DNS to pull images and clone repos. If this
+machine is your network's DNS server and nothing is running yet, temporarily point the
+system to an external resolver:
+```bash
+sudo sh -c 'echo "nameserver 1.1.1.1" > /etc/resolv.conf'
+```
+
+Then build and start:
 ```bash
 git clone https://github.com/jbencina/vpn.git
 cd vpn
 docker compose build
 docker compose up -d
 ```
+
+Once the stack is running, restore the system DNS to point back at this machine
+(`nameserver <this machine's IP>`) so all queries go through PiHole.
 
 PiHole is configured to use dnscrypt-proxy (`127.0.0.1#5053`) as its upstream resolver.
 You may need to update the upstream in PiHole's admin UI or `/etc/pihole/pihole.toml` if
