@@ -1,4 +1,4 @@
-listen_addresses = ['127.0.0.1:5053']
+listen_addresses = ['0.0.0.0:5053']
 server_names = ['cloudflare', 'cloudflare-ipv6']
 require_dnssec = true
 doh_servers = true
