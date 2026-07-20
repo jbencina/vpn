@@ -4,7 +4,7 @@ services:
     build: ./dnscrypt-proxy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "dnscrypt-proxy", "-resolve", "cloudflare.com", "-config", "/etc/dnscrypt-proxy/dnscrypt-proxy.to>
+      test: ["CMD", "dnscrypt-proxy", "-resolve", "cloudflare.com", "-config", "/etc/dnscrypt-proxy/dnscrypt-proxy.toml"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -40,3 +40,4 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/24
+
