@@ -24,13 +24,10 @@ services:
       - "80:80/tcp"
     environment:
       TZ: 'America/Los_Angeles'
-      DNS1: '172.20.0.3#5053'
-      DNS2: 'no'
+      FTLCONF_dns_upstreams: '172.20.0.3#5053'
+      FTLCONF_dns_listeningMode: 'ALL'
     volumes:
       - './etc-pihole/:/etc/pihole/'
-      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
     networks:
       dns:
